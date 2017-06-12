@@ -1,111 +1,89 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
+
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="1504.83">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Apple SD Gothic Neo'}
-    span.s1 {font: 12.0px 'Apple SD Gothic Neo'}
-    span.s2 {font: 12.0px Helvetica}
-  </style>
 </head>
-<body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;input type="text" id="sample2_postcode" placeholder="<span class="s1">우편번호</span>"&gt;</p>
-<p class="p1">&lt;input type="button" onclick="sample2_execDaumPostcode()" value="<span class="s1">우편번호</span> <span class="s1">찾기</span>"&gt;&lt;br&gt;</p>
-<p class="p1">&lt;input type="text" id="sample2_address" placeholder="<span class="s1">한글주소</span>"&gt;</p>
-<p class="p1">&lt;input type="text" id="sample2_addressEnglish" placeholder="<span class="s1">영문주소</span>"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- iOS<span class="s1">에서는</span> position:fixed <span class="s1">버그가</span> <span class="s1">있음</span>, <span class="s1">적용하는</span> <span class="s1">사이트에</span> <span class="s1">맞게</span> position:absolute <span class="s1">등을</span> <span class="s1">이용하여</span> top,left<span class="s1">값</span> <span class="s1">조정</span> <span class="s1">필요</span> --&gt;</p>
-<p class="p1">&lt;div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"&gt;</p>
-<p class="p1">&lt;img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="<span class="s1">닫기</span> <span class="s1">버튼</span>"&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"&gt;&lt;/script&gt;</p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// <span class="s1">우편번호</span> <span class="s1">찾기</span> <span class="s1">화면을</span> <span class="s1">넣을</span> element</p>
-<p class="p1"><span class="Apple-converted-space">    </span>var element_layer = document.getElementById('layer');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function closeDaumPostcode() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// iframe<span class="s1">을</span> <span class="s1">넣은</span> element<span class="s1">를</span> <span class="s1">안보이게</span> <span class="s1">한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function sample2_execDaumPostcode() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>new daum.Postcode({</p>
-<p class="p1"><span class="Apple-converted-space">            </span>oncomplete: function(data) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// <span class="s1">검색결과</span> <span class="s1">항목을</span> <span class="s1">클릭했을때</span> <span class="s1">실행할</span> <span class="s1">코드를</span> <span class="s1">작성하는</span> <span class="s1">부분</span>.</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// <span class="s1">각</span> <span class="s1">주소의</span> <span class="s1">노출</span> <span class="s1">규칙에</span> <span class="s1">따라</span> <span class="s1">주소를</span> <span class="s1">조합한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// <span class="s1">내려오는</span> <span class="s1">변수가</span> <span class="s1">값이</span> <span class="s1">없는</span> <span class="s1">경우엔</span> <span class="s1">공백</span>('')<span class="s1">값을</span> <span class="s1">가지므로</span>, <span class="s1">이를</span> <span class="s1">참고하여</span> <span class="s1">분기</span> <span class="s1">한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>var fullAddr = data.address; // <span class="s1">최종</span> <span class="s1">주소</span> <span class="s1">변수</span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>var extraAddr = ''; // <span class="s1">조합형</span> <span class="s1">주소</span> <span class="s1">변수</span></p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// <span class="s1">기본</span> <span class="s1">주소가</span> <span class="s1">도로명</span> <span class="s1">타입일때</span> <span class="s1">조합한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if(data.addressType === 'R'){</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>//<span class="s1">법정동명이</span> <span class="s1">있을</span> <span class="s1">경우</span> <span class="s1">추가한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>if(data.bname !== ''){</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>extraAddr += data.bname;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>// <span class="s1">건물명이</span> <span class="s1">있을</span> <span class="s1">경우</span> <span class="s1">추가한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>if(data.buildingName !== ''){</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>// <span class="s1">조합형주소의</span> <span class="s1">유무에</span> <span class="s1">따라</span> <span class="s1">양쪽에</span> <span class="s1">괄호를</span> <span class="s1">추가하여</span> <span class="s1">최종</span> <span class="s1">주소를</span> <span class="s1">만든다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// <span class="s1">우편번호와</span> <span class="s1">주소</span> <span class="s1">정보를</span> <span class="s1">해당</span> <span class="s1">필드에</span> <span class="s1">넣는다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('sample2_postcode').value = data.zonecode; //5<span class="s1">자리</span> <span class="s1">새우편번호</span> <span class="s1">사용</span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('sample2_address').value = fullAddr;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('sample2_addressEnglish').value = data.addressEnglish;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// iframe<span class="s1">을</span> <span class="s1">넣은</span> element<span class="s1">를</span> <span class="s1">안보이게</span> <span class="s1">한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// (autoClose:false <span class="s1">기능을</span> <span class="s1">이용한다면</span>, <span class="s1">아래</span> <span class="s1">코드를</span> <span class="s1">제거해야</span> <span class="s1">화면에서</span> <span class="s1">사라지지</span> <span class="s1">않는다</span>.)</p>
-<p class="p1"><span class="Apple-converted-space">                </span>element_layer.style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width : '100%',</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height : '100%',</p>
-<p class="p1"><span class="Apple-converted-space">            </span>maxSuggestItems : 5</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}).embed(element_layer);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// iframe<span class="s1">을</span> <span class="s1">넣은</span> element<span class="s1">를</span> <span class="s1">보이게</span> <span class="s1">한다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.display = 'block';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// iframe<span class="s1">을</span> <span class="s1">넣은</span> element<span class="s1">의</span> <span class="s1">위치를</span> <span class="s1">화면의</span> <span class="s1">가운데로</span> <span class="s1">이동시킨다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>initLayerPosition();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">    </span>// </span>브라우저의<span class="s2"> </span>크기<span class="s2"> </span>변경에<span class="s2"> </span>따라<span class="s2"> </span>레이어를<span class="s2"> </span>가운데로<span class="s2"> </span>이동시키고자<span class="s2"> </span>하실때에는</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// resize<span class="s1">이벤트나</span>, orientationchange<span class="s1">이벤트를</span> <span class="s1">이용하여</span> <span class="s1">값이</span> <span class="s1">변경될때마다</span> <span class="s1">아래</span> <span class="s1">함수를</span> <span class="s1">실행</span> <span class="s1">시켜</span> <span class="s1">주시거나</span>,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// <span class="s1">직접</span> element_layer<span class="s1">의</span> top,left<span class="s1">값을</span> <span class="s1">수정해</span> <span class="s1">주시면</span> <span class="s1">됩니다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function initLayerPosition(){</p>
-<p class="p1"><span class="Apple-converted-space">        </span>var width = 300; //<span class="s1">우편번호서비스가</span> <span class="s1">들어갈</span> element<span class="s1">의</span> width</p>
-<p class="p1"><span class="Apple-converted-space">        </span>var height = 400; //<span class="s1">우편번호서비스가</span> <span class="s1">들어갈</span> element<span class="s1">의</span> height</p>
-<p class="p1"><span class="Apple-converted-space">        </span>var borderWidth = 5; //<span class="s1">샘플에서</span> <span class="s1">사용하는</span> border<span class="s1">의</span> <span class="s1">두께</span></p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// <span class="s1">위에서</span> <span class="s1">선언한</span> <span class="s1">값들을</span> <span class="s1">실제</span> element<span class="s1">에</span> <span class="s1">넣는다</span>.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.width = width + 'px';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.height = height + 'px';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.border = borderWidth + 'px solid';</p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">        </span>// </span>실행되는<span class="s2"> </span>순간의<span class="s2"> </span>화면<span class="s2"> </span>너비와<span class="s2"> </span>높이<span class="s2"> </span>값을<span class="s2"> </span>가져와서<span class="s2"> </span>중앙에<span class="s2"> </span>뜰<span class="s2"> </span>수<span class="s2"> </span>있도록<span class="s2"> </span>위치를<span class="s2"> </span>계산한다<span class="s2">.</span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<body onload="execDaumPostcode()">
+
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+
+<div id = "layer" style = "display:block; position:absolute; overflow:hidden; z-index:1; -webkit-overflow-scrolling:touch; ">
+
+</div>
+
+<script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
+<script>
+  window.addEventListener("message", onReceivedPostMessage, false);
+  function onReceivedPostMessage(event){
+    //..ex deconstruct event into action & params
+    var action = event.data.action;
+    var params = event.data.params;
+    console.log("onReceivedPostMessage "+event);
+  }
+  function onReceivedActivityMessageViaJavascriptInterface(json){
+    //..ex deconstruct data into action & params
+    var data = JSON.parse(json);
+    var action = data.action;
+    var params = data.params;
+    console.log("onReceivedActivityMessageViaJavascriptInterface "+event);
+  }
+  function postMessageToiOS(postData) {
+      window.webkit.messageHandlers.callBackHandler.postMessage(postData);
+  }
+  var element_layer = document.getElementById('layer');
+  function execDaumPostcode() {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        var fullAddr = data.address; // 최종 주소 변수
+        var extraAddr = ''; // 조합형 주소 변수
+        if(data.addressType === 'R'){
+          if(data.bname !== ''){
+            extraAddr += data.bname;
+          }
+          if(data.buildingName !== ''){
+            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+        }
+        var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+        var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+          extraRoadAddr += data.bname;
+        }
+        if(data.buildingName !== '' && data.apartment === 'Y'){
+          extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+        }
+        if(extraRoadAddr !== ''){
+          extraRoadAddr = ' (' + extraRoadAddr + ')';
+        }
+        if(fullRoadAddr !== ''){
+          fullRoadAddr += extraRoadAddr;
+        }
+        var postData = {
+            postcode : data.postcode,
+            zonecode : data.zonecode,
+            addr : fullRoadAddr
+        };
+        window.postMessageToiOS(postData);
+      },
+      width : '100%',
+      height : '100%'
+    }).embed(element_layer);
+    element_layer.style.display = 'block';
+    initLayerPosition();
+  }
+  
+  function initLayerPosition(){
+    var width = (window.innerWidth || document.documentElement.clientWidth); //우편번호서비스가 들어갈 element의 width
+    var height = (window.innerHeight || document.documentElement.clientHeight); //우편번호서비스가 들어갈 element의 height
+    var borderWidth = 5; //샘플에서 사용하는 border의 두께
+    element_layer.style.width = width + 'px';
+    element_layer.style.height = height + 'px';
+    element_layer.style.border = borderWidth + 'px solid';
+    element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
+    element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
+  }
+</script>
+
 </body>
 </html>
